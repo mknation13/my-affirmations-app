@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#14161a">
+  <meta name="description" content="A calm, simple daily affirmations routine. Everything stays on your device.">
+  <title>My Affirmations</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <main id="main" tabindex="-1">
+
+    <!-- HOME -->
+    <section id="view-home" class="view" aria-labelledby="home-title">
+      <p class="eyebrow" id="home-date"></p>
+      <h1 id="home-title" class="visually-hidden">Today</h1>
+      <p class="label">Today's affirmation</p>
+      <blockquote class="affirmation affirmation-large" id="daily-affirmation"></blockquote>
+      <a class="btn btn-primary btn-block" href="#routine" id="start-routine">Start my routine</a>
+      <p class="streak" id="home-streak" aria-live="polite"></p>
+    </section>
+
+    <!-- ROUTINE -->
+    <section id="view-routine" class="view" aria-labelledby="routine-title" hidden>
+      <h1 id="routine-title" class="visually-hidden">Routine</h1>
+
+      <!-- Step 1: mood -->
+      <div class="step" id="step-mood" data-step="1">
+        <div class="step-head">
+          <a class="btn-back" href="#home">← Home</a>
+          <span class="step-count">Step 1 of 3</span>
+        </div>
+        <h2 class="step-title" tabindex="-1">How are you feeling?</h2>
+        <p class="muted">There's no wrong answer. This just shapes what comes next.</p>
+        <div class="choice-list" role="group" aria-label="Your mood">
+          <button type="button" class="btn btn-choice" data-mood="good">Good</button>
+          <button type="button" class="btn btn-choice" data-mood="okay">Okay</button>
+          <button type="button" class="btn btn-choice" data-mood="rough">Rough</button>
+        </div>
+      </div>
+
+      <!-- Step 2: evidence -->
+      <div class="step" id="step-evidence" data-step="2" hidden>
+        <div class="step-head">
+          <button type="button" class="btn-back" data-back="1">← Back</button>
+          <span class="step-count">Step 2 of 3</span>
+        </div>
+        <h2 class="step-title" tabindex="-1">Remember your evidence</h2>
+        <p class="muted" id="mood-note"></p>
+
+        <ul class="evidence-recall" id="evidence-recall"></ul>
+
+        <div id="evidence-empty" hidden>
+          <p>You haven't saved any wins yet. Is there one thing, big or small, you've handled before?</p>
+          <form id="routine-evidence-form" class="stack">
+            <label for="routine-evidence-text" class="visually-hidden">A win or moment of resilience</label>
+            <textarea id="routine-evidence-text" rows="3" maxlength="280" placeholder="e.g. I got through a tough week and still showed up."></textarea>
+            <button type="submit" class="btn btn-secondary">Save this win</button>
+          </form>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" id="evidence-continue">Continue</button>
+      </div>
+
+      <!-- Step 3: affirmation -->
+      <div class="step" id="step-affirmation" data-step="3" hidden>
+        <div class="step-head">
+          <button type="button" class="btn-back" data-back="2">← Back</button>
+          <span class="step-count">Step 3 of 3</span>
+        </div>
+        <h2 class="step-title" tabindex="-1">Your affirmation</h2>
+        <p class="label" id="moment-label">What's this moment?</p>
+        <div class="moment-picker" role="group" aria-labelledby="moment-label" id="routine-moments"></div>
+        <blockquote class="affirmation affirmation-large" id="routine-affirmation" aria-live="polite"></blockquote>
+        <div class="stack">
+          <button type="button" class="btn btn-secondary btn-block" id="next-affirmation">Next affirmation</button>
+          <button type="button" class="btn btn-primary btn-block" id="complete-routine">Complete routine</button>
+        </div>
+      </div>
+
+      <!-- Done -->
+      <div class="step" id="step-done" data-step="4" hidden>
+        <h2 class="step-title" tabindex="-1">Routine complete</h2>
+        <p id="done-message"></p>
+        <p class="streak streak-big" id="done-streak"></p>
+        <a class="btn btn-primary btn-block" href="#home">Back to home</a>
+      </div>
+    </section>
+
+    <!-- EVIDENCE BANK -->
+    <section id="view-evidence" class="view" aria-labelledby="evidence-title" hidden>
+      <h1 id="evidence-title" tabindex="-1">Evidence Bank</h1>
+      <p class="muted">Wins and moments you got through. Proof for the days you need it.</p>
+      <form id="evidence-form" class="stack card">
+        <label for="evidence-text">Add a win</label>
+        <textarea id="evidence-text" rows="3" maxlength="280" placeholder="e.g. I had a hard conversation and handled it calmly." required></textarea>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+      <p class="empty" id="evidence-list-empty" hidden>Nothing here yet. Your first entry can be small. Getting out of bed on a hard day counts.</p>
+      <ul class="entry-list" id="evidence-list"></ul>
+    </section>
+
+    <!-- AFFIRMATIONS -->
+    <section id="view-affirmations" class="view" aria-labelledby="affirmations-title" hidden>
+      <h1 id="affirmations-title" tabindex="-1">Affirmations</h1>
+
+      <form id="custom-form" class="stack card">
+        <label for="custom-text" id="custom-form-label">Write your own</label>
+        <textarea id="custom-text" rows="2" maxlength="160" placeholder="Keep it short and believable." required></textarea>
+        <label for="custom-moment">Moment</label>
+        <select id="custom-moment"></select>
+        <div class="row">
+          <button type="submit" class="btn btn-primary" id="custom-submit">Add</button>
+          <button type="button" class="btn btn-secondary" id="custom-cancel" hidden>Cancel</button>
+        </div>
+      </form>
+
+      <div class="moment-picker" role="tablist" aria-label="Moments" id="library-tabs"></div>
+      <ul class="entry-list" id="library-list" role="tabpanel"></ul>
+    </section>
+
+    <footer class="disclaimer">Wellness tool only, not therapy or medical advice.</footer>
+  </main>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="#home" data-nav="home">Home</a>
+    <a href="#routine" data-nav="routine">Routine</a>
+    <a href="#evidence" data-nav="evidence">Evidence</a>
+    <a href="#affirmations" data-nav="affirmations">Affirmations</a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
