@@ -10,7 +10,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="application-name" content="Groundwork">
-  <meta name="description" content="A calm, simple daily affirmations routine. Everything stays on your device.">
+  <meta name="description" content="Believable, evidence-backed affirmations that adapt to you. Everything stays on your device.">
   <title>Groundwork</title>
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -31,8 +31,23 @@
           <svg class="brand-mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="28"><path d="M140 352h232M256 352V232"/><path d="M256 268c-6-40-38-64-82-64 2 42 34 66 82 64zM256 236c4-44 36-74 86-74-2 48-36 76-86 74z" fill="currentColor" stroke-width="16"/></g></svg>
           Groundwork
         </h1>
-        <p class="streak-pill" id="home-streak" aria-live="polite"></p>
+        <div class="home-tools">
+          <p class="streak-pill" id="home-streak" aria-live="polite"></p>
+          <a class="icon-btn" href="#settings" aria-label="Settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+          </a>
+        </div>
       </header>
+
+      <div class="card onboard" id="onboard" hidden>
+        <h2 class="card-title">Make it more personal</h2>
+        <p class="muted">Optional. Pick up to 3 areas you'd like support with. You can change them any time in Settings.</p>
+        <div class="chips" id="onboard-chips" role="group" aria-label="Focus areas"></div>
+        <div class="row">
+          <button type="button" class="btn btn-primary" id="onboard-save">Save</button>
+          <button type="button" class="btn btn-secondary" id="onboard-skip">Not now</button>
+        </div>
+      </div>
 
       <div class="home-center">
         <p class="eyebrow" id="home-date"></p>
@@ -41,6 +56,7 @@
       </div>
 
       <a class="btn btn-primary btn-block" href="#routine" id="start-routine">Start my routine</a>
+      <p class="home-sub muted" id="home-sub">About a minute: how you feel, your evidence, one statement.</p>
     </section>
 
     <!-- ROUTINE -->
@@ -69,6 +85,7 @@
             <span class="choice-hint">We'll keep it gentle</span>
           </button>
         </div>
+        <p class="focus-line" id="focus-line"></p>
       </div>
 
       <!-- Step 2: evidence -->
@@ -83,10 +100,10 @@
         <ul class="evidence-recall" id="evidence-recall"></ul>
 
         <div id="evidence-empty" class="card" hidden>
-          <p>You haven't saved any wins yet. Is there one thing, big or small, you've handled before?</p>
+          <p>Your Evidence Bank is empty for now. It's where you keep proof that you've handled things before. Is there one thing, big or small?</p>
           <form id="routine-evidence-form" class="stack">
             <label for="routine-evidence-text" class="visually-hidden">A win or moment of resilience</label>
-            <textarea id="routine-evidence-text" rows="3" maxlength="280" placeholder="e.g. I got through a tough week and still showed up."></textarea>
+            <textarea id="routine-evidence-text" rows="3" maxlength="280"></textarea>
             <button type="submit" class="btn btn-secondary">Save this win</button>
           </form>
         </div>
@@ -100,11 +117,31 @@
           <button type="button" class="btn-back" data-back="2">← Back</button>
           <span class="step-count"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>Step 3 of 3</span>
         </div>
-        <h2 class="step-title" tabindex="-1">Your affirmation</h2>
+        <h2 class="step-title visually-hidden" tabindex="-1">Your affirmation</h2>
         <p class="label" id="moment-label">What's this moment?</p>
-        <div class="moment-picker" role="group" aria-labelledby="moment-label" id="routine-moments"></div>
+        <div class="moment-picker moment-picker-row" role="group" aria-labelledby="moment-label" id="routine-moments"></div>
         <blockquote class="affirmation affirmation-hero" id="routine-affirmation" aria-live="polite"></blockquote>
-        <div class="stack">
+        <div class="proof" id="proof" hidden>
+          <span class="proof-label">Your evidence</span>
+          <span class="proof-text" id="proof-text"></span>
+        </div>
+        <div class="feedback-row" role="group" aria-label="How did this land?">
+          <button type="button" class="chip-btn" id="fb-fav" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+            <span>Save</span>
+          </button>
+          <button type="button" class="chip-btn" id="fb-helpful" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+            <span>Helpful</span>
+          </button>
+          <button type="button" class="chip-btn" id="fb-hide">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            <span>Hide</span>
+          </button>
+        </div>
+        <button type="button" class="link-btn" id="fb-unbelievable">This doesn't feel believable</button>
+        <p class="status" id="fb-status" role="status"></p>
+        <div class="stack routine-actions">
           <button type="button" class="btn btn-secondary btn-block" id="next-affirmation">Next affirmation</button>
           <button type="button" class="btn btn-primary btn-block" id="complete-routine">Complete routine</button>
         </div>
@@ -116,6 +153,28 @@
         <h2 class="step-title" tabindex="-1">Routine complete</h2>
         <p class="muted" id="done-message"></p>
         <p class="streak-big" id="done-streak"></p>
+
+        <div class="card action-card" id="action-card" hidden>
+          <p class="label">One small step, if you want it</p>
+          <p class="action-text" id="action-text"></p>
+          <div class="row">
+            <button type="button" class="btn btn-secondary" id="action-another">Another idea</button>
+            <button type="button" class="btn btn-secondary" id="action-skip">Skip</button>
+          </div>
+        </div>
+
+        <details class="card done-evidence" id="done-evidence">
+          <summary>Save something from today as evidence</summary>
+          <form id="done-evidence-form" class="stack">
+            <label for="done-evidence-text" class="visually-hidden">Something you handled today</label>
+            <textarea id="done-evidence-text" rows="2" maxlength="280" placeholder="e.g. I did my routine on a hard day."></textarea>
+            <label for="done-evidence-focus">Category (optional)</label>
+            <select id="done-evidence-focus" class="focus-select"></select>
+            <button type="submit" class="btn btn-secondary">Save to Evidence Bank</button>
+          </form>
+        </details>
+        <p class="status" id="done-status" role="status"></p>
+
         <a class="btn btn-primary btn-block" href="#home">Back to home</a>
       </div>
     </section>
@@ -123,12 +182,16 @@
     <!-- EVIDENCE BANK -->
     <section id="view-evidence" class="view" aria-labelledby="evidence-title" hidden>
       <h1 id="evidence-title" class="page-title" tabindex="-1">Evidence Bank</h1>
-      <p class="muted">Wins and moments you got through. Proof for the days you need it.</p>
+      <p class="muted">Proof that you've handled things before. During your routine, Groundwork shows entries that match your focus areas first.</p>
       <form id="evidence-form" class="stack card">
-        <label for="evidence-text">Add a win</label>
-        <textarea id="evidence-text" rows="3" maxlength="280" placeholder="e.g. I had a hard conversation and handled it calmly." required></textarea>
+        <label for="evidence-text">Add a win or a moment you got through</label>
+        <textarea id="evidence-text" rows="3" maxlength="280" required></textarea>
+        <label for="evidence-focus">Category (optional)</label>
+        <select id="evidence-focus" class="focus-select"></select>
         <button type="submit" class="btn btn-primary">Save</button>
       </form>
+      <p class="count-line" id="evidence-count"></p>
+      <div class="chips chips-scroll" id="evidence-filter" role="group" aria-label="Filter by category" hidden></div>
       <p class="empty" id="evidence-list-empty" hidden>Nothing here yet. Your first entry can be small. Getting out of bed on a hard day counts.</p>
       <ul class="entry-list" id="evidence-list"></ul>
     </section>
@@ -148,8 +211,58 @@
         </div>
       </form>
 
-      <div class="moment-picker" role="tablist" aria-label="Moments" id="library-tabs"></div>
+      <div class="chips chips-scroll" role="tablist" aria-label="Browse" id="library-tabs"></div>
+      <p class="muted small" id="library-note"></p>
       <ul class="entry-list" id="library-list" role="tabpanel"></ul>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="view-settings" class="view" aria-labelledby="settings-title" hidden>
+      <h1 id="settings-title" class="page-title" tabindex="-1">Settings</h1>
+
+      <div class="settings-block">
+        <h2 class="section-title">Focus areas</h2>
+        <p class="muted">Choose up to 3. Groundwork leans toward statements, evidence and small steps for these.</p>
+        <div class="chips" id="settings-focus" role="group" aria-label="Focus areas"></div>
+      </div>
+
+      <div class="settings-block">
+        <h2 class="section-title">Routine</h2>
+        <label class="toggle">
+          <input type="checkbox" id="pref-actions">
+          <span>Suggest one small step after the routine</span>
+        </label>
+      </div>
+
+      <div class="settings-block">
+        <h2 class="section-title">Your feedback</h2>
+        <p class="muted" id="feedback-summary"></p>
+        <button type="button" class="btn btn-secondary" id="reset-feedback">Reset saved, hidden and helpful</button>
+      </div>
+
+      <div class="settings-block">
+        <h2 class="section-title">Your data</h2>
+        <p class="muted">Everything is stored only in this browser. Export a backup file to keep it safe or to move it to another device or browser.</p>
+        <div class="row">
+          <button type="button" class="btn btn-secondary" id="export-btn">Export backup</button>
+          <label class="btn btn-secondary file-btn" for="import-file">Import backup</label>
+          <input type="file" id="import-file" accept="application/json,.json" class="visually-hidden">
+        </div>
+        <div class="card import-preview" id="import-preview" hidden>
+          <p id="import-summary"></p>
+          <div class="stack">
+            <button type="button" class="btn btn-primary" id="import-merge">Add to what's here</button>
+            <button type="button" class="btn btn-secondary" id="import-replace">Replace everything here</button>
+            <button type="button" class="link-btn" id="import-cancel">Cancel</button>
+          </div>
+        </div>
+        <p class="status" id="settings-status" role="status"></p>
+      </div>
+
+      <div class="settings-block">
+        <h2 class="section-title">How Groundwork chooses</h2>
+        <p class="muted">There's no AI here and nothing leaves your device. Statements are picked with a few simple rules: your mood sets the tone, the moment and your focus areas narrow the list, things you save or mark helpful come up more often, hidden ones never appear, and anything you've seen in the last few days is held back.</p>
+      </div>
     </section>
 
     <footer class="disclaimer">Wellness tool only, not therapy or medical advice.</footer>
@@ -174,6 +287,8 @@
     </a>
   </nav>
 
+  <script src="content.js"></script>
+  <script src="engine.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

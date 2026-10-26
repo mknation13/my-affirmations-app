@@ -1,0 +1,12 @@
+{
+  "name": "groundwork",
+  "private": true,
+  "description": "Groundwork affirmations app. Static site; this file only exists to run the tests.",
+  "scripts": {
+    "test": "node --test tests/unit/*.test.js",
+    "test:e2e": "node tests/e2e/journeys.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.40.0"
+  }
+}
