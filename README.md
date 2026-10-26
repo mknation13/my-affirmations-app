@@ -11,6 +11,10 @@ A small, calm, mobile-first daily affirmations app. Plain HTML, CSS and JavaScri
 
 Everything you enter (Evidence Bank entries, your own affirmations, completion history) is stored only in your browser's `localStorage`. Nothing is sent anywhere, and nothing personal is in this repository. Clearing your browser's site data for this page erases it.
 
+## Credits
+
+Fonts: [Fraunces](https://github.com/undercasetype/Fraunces) and [Inter](https://github.com/rsms/inter), both under the SIL Open Font License (see `fonts/`). They're served from this repo, so nothing loads from a third party.
+
 ## Run locally
 
 Open `index.html` in a browser, or serve the folder:

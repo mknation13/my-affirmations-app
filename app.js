@@ -229,11 +229,20 @@
 
     var streak = currentStreak();
     var doneToday = load(KEYS.history).indexOf(todayKey()) !== -1;
-    var text;
-    if (streak === 0) text = 'No current streak. Today is a fine day to start.';
-    else if (doneToday) text = streakText(streak) + ' · done today ✓';
-    else text = streakText(streak) + ' · keep it going today';
-    $('home-streak').textContent = text;
+    var pill = $('home-streak');
+    var label;
+    if (streak === 0) {
+      pill.textContent = 'Start a streak';
+      label = 'No current streak. Today is a fine day to start.';
+    } else if (doneToday) {
+      pill.textContent = streakText(streak) + ' ✓';
+      label = streakText(streak) + ', done today.';
+    } else {
+      pill.textContent = streakText(streak);
+      label = streakText(streak) + '. Not done yet today.';
+    }
+    pill.classList.toggle('is-empty', streak === 0);
+    pill.setAttribute('title', label);
   }
 
   // ---------- Routine ----------
@@ -288,7 +297,12 @@
   function nextAffirmation() {
     if (!routine.queue.length) buildQueue();
     routine.current = routine.queue.shift();
-    $('routine-affirmation').textContent = routine.current;
+    var box = $('routine-affirmation');
+    box.textContent = routine.current;
+    // Restart the fade each time the statement changes.
+    box.classList.remove('fade-in');
+    void box.offsetWidth;
+    box.classList.add('fade-in');
   }
 
   function renderMomentPicker() {
@@ -385,7 +399,7 @@
     custom.forEach(function (a) {
       var li = el('li');
       var body = el('div', { 'class': 'entry-text' }, a.text);
-      body.appendChild(el('span', { 'class': 'entry-meta' }, 'Yours'));
+      body.appendChild(el('span', { 'class': 'entry-meta is-yours' }, 'Yours'));
       var actions = el('div', { 'class': 'entry-actions' });
       var edit = el('button', { type: 'button', 'class': 'btn-text', 'aria-label': 'Edit: ' + a.text }, 'Edit');
       edit.addEventListener('click', function () { startEdit(a); });
