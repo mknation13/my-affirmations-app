@@ -1,4 +1,4 @@
-# My Affirmations
+# Groundwork
 
 A small, calm, mobile-first daily affirmations app. Plain HTML, CSS and JavaScript, no build step.
 
